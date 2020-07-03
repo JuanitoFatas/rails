@@ -1031,6 +1031,10 @@ module ActiveRecord
         @reflection.constraints + [source_type_scope]
       end
 
+      def association_primary_key(klass = nil)
+        (klass && options.dig(:class_primary_key, klass.name)) || super
+      end
+
       private
         def source_type_scope
           type = @previous_reflection.foreign_type

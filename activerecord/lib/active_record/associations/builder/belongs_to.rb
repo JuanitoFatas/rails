@@ -8,7 +8,7 @@ module ActiveRecord::Associations::Builder # :nodoc:
 
     def self.valid_options(options)
       valid = super + [:counter_cache, :optional, :default]
-      valid += [:polymorphic, :foreign_type] if options[:polymorphic]
+      valid += [:polymorphic, :foreign_type, :class_primary_key] if options[:polymorphic]
       valid
     end
 
