@@ -341,7 +341,8 @@ module ActionDispatch # :nodoc:
       attr_reader :to_path
 
       def initialize(path)
-        @to_path = path
+        @tempfile = path.is_a?(Tempfile) ? path : nil
+        @to_path = @tempfile ? path : @tempfile.to_path
       end
 
       def body
@@ -354,6 +355,11 @@ module ActionDispatch # :nodoc:
           while chunk = file.read(16384)
             yield chunk
           end
+        end
+      ensure
+        if @tempfile
+          @tempfile.close
+          @tempfile.unlink
         end
       end
     end
